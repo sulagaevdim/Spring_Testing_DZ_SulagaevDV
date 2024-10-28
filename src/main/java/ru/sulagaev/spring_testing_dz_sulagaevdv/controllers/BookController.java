@@ -1,5 +1,7 @@
 package ru.sulagaev.spring_testing_dz_sulagaevdv.controllers;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Metrics;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +16,11 @@ import java.util.Optional;
 @AllArgsConstructor
 public class BookController {
     private final BookService bookService;
+    private final Counter requestCounter = Metrics.counter("request_for_books");
 
     @GetMapping
     public List<Book> findAll(){
+        requestCounter.increment();
         return bookService.findAll();
     }
 
