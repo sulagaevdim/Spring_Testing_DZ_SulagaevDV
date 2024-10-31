@@ -1,0 +1,1 @@
+Data of book: Book(id=null, title=Garry Potter, author=Roaling)

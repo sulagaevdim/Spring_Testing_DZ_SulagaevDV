@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sulagaev.spring_testing_dz_sulagaevdv.models.Book;
 import ru.sulagaev.spring_testing_dz_sulagaevdv.services.BookService;
+import ru.sulagaev.spring_testing_dz_sulagaevdv.services.FileGateWay;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class BookController {
     private final BookService bookService;
+    private final FileGateWay fileGateWay;
     private final Counter requestCounter = Metrics.counter("request_for_books");
 
     @GetMapping
@@ -32,6 +34,7 @@ public class BookController {
     }
     @PostMapping
     public Book save(@RequestBody Book book){
+        fileGateWay.writeToFile(book.getTitle() + ".txt", book.toString());
         return bookService.save(book);
     }
 
